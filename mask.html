@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div>
+      <input id="input" type="text" />
+      <button id="button" disabled>Send</button>
+    </div>
+    <script>
+      // check symbol every single type
+      const isSymbolValid = symbol => /\d|\./.test(symbol);
+
+      // check input every single type
+      const isInputValid = input =>
+        /^\d+(\.{1}|\.{1}\d{1,2})$|^[0-9]+$/.test(input);
+
+      // check input for the hide / unhide ok button
+      const isInputSuccess = input => /^[0-9]+\.{1}[0-9]{2}$/.test(input);
+
+      const inputElement = document.getElementById("input");
+      inputElement.oninput = e => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.inputType !== "deleteContentBackward") {
+          replaceValue(e.target.value, e.data);
+        } else {
+          button.disabled = true
+        }
+      };
+
+      const replaceValue = (value, key) => {
+        isSymbolValid(key) && isInputValid(inputElement.value)
+          ? (inputElement.value = value)
+          : inputElement.value = value.slice(0, -1);
+
+        isInputSuccess(inputElement.value) ? button.disabled = false : button.disabled = true
+      };
+    </script>
+  </body>
+</html>
